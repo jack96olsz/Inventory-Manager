@@ -32,7 +32,7 @@ class DataStore
             item.cd_quantity += new_item.cd_quantity
             item.tape_quantity += new_item.tape_quantity
             item.vinyl_quantity += new_item.vinyl_quantity
-            ""
+
             # Add unique identifiers if they don't exist
             item.cd_inventory_identifier = new_item.cd_inventory_identifier if item.cd_inventory_identifier.empty?
             item.tape_inventory_identifier = new_item.tape_inventory_identifier if item.tape_inventory_identifier.empty?
