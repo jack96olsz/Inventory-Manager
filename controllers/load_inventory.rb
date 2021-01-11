@@ -1,9 +1,8 @@
 require_relative "../lib/FileUtil.rb"
 require_relative "../lib/DataStore.rb"
 
-# def load_inventory(file_name)
 # TODO: tell user where to put files or change
-file_name = "../resources/" + ARGV[0]
+file_name = "../resources/#{ARGV[0]}"
 data_store = DataStore.new
 
 # TODO: Think about which level error should be handled
@@ -20,4 +19,3 @@ rescue StandardError => e
 rescue => e
   print_exception(e, false)
 end
-# end
