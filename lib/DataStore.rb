@@ -1,8 +1,6 @@
 require "yaml/store"
 require_relative "../models/InventoryItem.rb"
 
-# TODO: break loop once item is found (across app?)
-
 # In lieu of not being able to use a database
 class DataStore
   def initialize
@@ -21,15 +19,14 @@ class DataStore
   end
 
   #   Create/Update
-  # TODO: match items regardles of capitalization
   def save_inventory_items(inventory_items)
     @store.transaction do
       inventory_items.each do |new_item|
         found = false
         @store[:inventory_items].each do |item|
-          if item.artist == new_item.artist &&
-             item.album == new_item.album &&
-             item.release_year == new_item.release_year
+          if item.artist.casecmp?(new_item.artist) &&
+             item.album.casecmp?(new_item.album) &&
+             item.release_year.casecmp?(new_item.release_year)
             found = true
 
             # Update quantities
@@ -88,7 +85,6 @@ class DataStore
       inventory_items.sort_by! { |item| [item.cd_quantity, item.tape_quantity, item.vinyl_quantity] }.reverse!
     else
       @store.transaction do
-        inventory_items = @store[:inventory_items]
         @store[:inventory_items].each do |item|
           if item.send(field_name) > 0
             inventory_items.push(item)
