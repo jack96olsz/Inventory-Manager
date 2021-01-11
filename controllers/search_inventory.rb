@@ -14,13 +14,17 @@ when "released"
   inventory_items = data_store.get_inventory_items_by_field_name("release_year", substring)
   inventory_items.sort_by! { |item| item.send("release_year").downcase }.reverse!
 when "format"
-  inventory_items = data_store.get_inventory_items_by_format(substring)
-else
-  puts "Invalid field name: " + field_name
+  inventory_items = data_store.get_inventory_items_by_format(substring) 
 end
 
-inventory_items.each do |item|
-  output << item.to_s + "\n"
+if inventory_items.nil?
+  output = "Invalid field name: #{field_name}"
+elsif inventory_items.empty?
+  output = "No Results"
+else
+  inventory_items.each do |item|
+    output << item.to_s + "\n"
+  end
 end
 
 puts output
