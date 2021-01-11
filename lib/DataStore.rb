@@ -110,7 +110,6 @@ class DataStore
 
         if identifiers.include?(inventory_id)
           # Decrement quanity unless item is out of stock
-          # TODO: include out of stock message
           case identifiers.index(inventory_id)
           when 0 # CD
             unless item.cd_quantity == 0
@@ -129,13 +128,9 @@ class DataStore
             end
           end
           # Break loop after item is found
-          # TODO: test if item has updated quantity
           break
         end
       end
-      # TODO: test if this gets returned after item return or only when no item is returned after loop
-      #       test what is returned without this statement and when no item is returned. Maybe move this to purchase.rb
-      # return "Item not found: " + inventory_id + "\n\n"
     end
     return response
   end

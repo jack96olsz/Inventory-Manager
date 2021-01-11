@@ -1,6 +1,5 @@
 require_relative "../lib/DataStore.rb"
 
-# TODO: use proper casing
 field_name = ARGV[0].nil? ? "" : ARGV[0].downcase
 substring = ARGV[1].nil? ? "" : ARGV[1].downcase
 data_store = DataStore.new

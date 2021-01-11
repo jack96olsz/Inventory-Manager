@@ -32,7 +32,6 @@ class InventoryItem
     @vinyl_quantity = vinyl_quantity
   end
 
-  # TODO: only display format if in stock
   def to_s
     "Artist: #{@artist}\n" +
     "Album: #{@album}\n" +

@@ -4,8 +4,6 @@ inventory_id = ARGV[0]
 data_store = DataStore.new
 output = "Removed 1 "
 # TODO: move new lines to interface (across app)
-# TODO: move purchase loop to DataStore if possible (cut out returning all values twice)
-#       return found item and perform rest of operations
 item = data_store.purchase_by_inventory_id(inventory_id)
 
 if item
