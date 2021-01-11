@@ -81,14 +81,22 @@ class DataStore
       field_name = "vinyl_quantity"
     end
 
-    @store.transaction do
-      @store[:inventory_items].each do |item|
-        if item.send(field_name) > 0
-          inventory_items.push(item)
+    if field_name.nil?
+      @store.transaction do
+        inventory_items = @store[:inventory_items]
+      end
+      inventory_items.sort_by! { |item| [item.cd_quantity, item.tape_quantity, item.vinyl_quantity] }.reverse!
+    else
+      @store.transaction do
+        inventory_items = @store[:inventory_items]
+        @store[:inventory_items].each do |item|
+          if item.send(field_name) > 0
+            inventory_items.push(item)
+          end
         end
       end
+      inventory_items.sort_by! { |item| item.send(field_name) }.reverse!
     end
-    inventory_items.sort_by! { |item| item.send(field_name) }.reverse!
 
     return inventory_items
   end
