@@ -3,9 +3,9 @@ require_relative "../lib/DataStore.rb"
 inventory_id = ARGV[0]
 data_store = DataStore.new
 output = "Removed 1 "
-# TODO: move new lines to interface (across app)
 item = data_store.purchase_by_inventory_id(inventory_id)
 
+# Successful purchase
 if item
   identifiers = [
     item.cd_inventory_identifier,
@@ -13,7 +13,7 @@ if item
     item.vinyl_inventory_identifier,
   ]
 
-  # Decrement quanity
+  # Continue to build ouput
   case identifiers.index(inventory_id)
   when 0 # CD
     output << "cd "
@@ -22,14 +22,10 @@ if item
   when 2 # Vinyl
     output << "vinyl "
   end
-  output << "of #{item.album} by #{item.artist} from the inventory\n\n"
-  # if quanity == 0
-  #   output = "Item out of stock: " + inventory_id + "\n\n"
-  # end
+  output << "of #{item.album} by #{item.artist} from the inventory\n"
 
   # Output purchased item
   puts output
 else
-  # TODO: test item not found or out of stock or no inventory_id
-  puts "Unable to purchase item: #{inventory_id}\n\n"
+  puts "Unable to purchase item: #{inventory_id}\n"
 end

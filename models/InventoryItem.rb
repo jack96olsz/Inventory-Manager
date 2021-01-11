@@ -42,5 +42,5 @@ class InventoryItem
   end
 end
 
-# "DB" Format
+# "DB" Format. Could have made an entry for each format but this made it easier when constructing a single inventory item to output
 # artist | album | release_year | cd_inventory_identifier | cd_quantity | tape_inventory_identifier | tape_quantity | vinyl_inventory_identifier | vinyl_quantity

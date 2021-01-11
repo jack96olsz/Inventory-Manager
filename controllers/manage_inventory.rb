@@ -2,12 +2,13 @@ require_relative '../views/Interface.rb'
 
 interface = Interface.new
 interface.clear_output
+output = ""
 
-while interface.output
-  interface.print_menu
+while output
+  puts interface.print_menu(output)
   input = gets.chomp.downcase
 
   interface.clear_output
-  interface.process_input(input)
+  output = interface.process_input(input)
   interface.clear_output
 end
