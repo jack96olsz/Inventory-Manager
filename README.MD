@@ -1,3 +1,5 @@
+A simple program to manage inventory for an imaginary music store
+
 Run commands individually:
 
 ```
