@@ -1,6 +1,9 @@
 require "yaml/store"
 require_relative "../models/InventoryItem.rb"
 
+# TODO: break loop once item is found (across app?)
+
+# In lieu of not being able to use a database
 class DataStore
   def initialize
     @store = YAML::Store.new("../resources/data.yml")
@@ -18,6 +21,7 @@ class DataStore
   end
 
   #   Create/Update
+  # TODO: match items regardles of capitalization
   def save_inventory_items(inventory_items)
     @store.transaction do
       inventory_items.each do |new_item|
@@ -90,8 +94,8 @@ class DataStore
   end
 
   #   Update
-  def update_quantity_by_inventory_id(inventory_id, quanity)
-    puts "here"
+  def purchase_by_inventory_id(inventory_id)
+    response = false
     @store.transaction do
       @store[:inventory_items].each do |item|
         identifiers = [
@@ -101,17 +105,35 @@ class DataStore
         ]
 
         if identifiers.include?(inventory_id)
+          # Decrement quanity unless item is out of stock
+          # TODO: include out of stock message
           case identifiers.index(inventory_id)
           when 0 # CD
-            item.cd_quantity = quanity
+            unless item.cd_quantity == 0
+              item.cd_quantity -= 1
+              response = item
+            end
           when 1 # Tape
-            item.tape_quantity = quanity
+            unless item.tape_quantity == 0
+              item.tape_quantity -= 1
+              response = item
+            end
           when 2 # Vinyl
-            item.vinyl_quantity = quanity
+            unless item.vinyl_quantity == 0
+              item.vinyl_quantity -= 1
+              response = item
+            end
           end
+          # Break loop after item is found
+          # TODO: test if item has updated quantity
+          break
         end
       end
+      # TODO: test if this gets returned after item return or only when no item is returned after loop
+      #       test what is returned without this statement and when no item is returned. Maybe move this to purchase.rb
+      # return "Item not found: " + inventory_id + "\n\n"
     end
+    return response
   end
 
   #   Delete
